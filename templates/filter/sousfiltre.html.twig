@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fenua'a{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('style/pricing.css')}}">
+        {% endblock %}
+        
+{% block body %}
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm" id="tete">
+  <h5 class="my-0 mr-md-auto font-weight-normal"><img style="width: 150px" src="{{ asset('media/logo/logo.png')}}"></h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+  <ul class="nav nav-tabs">
+   {# <li class="nav-item">
+    <a class="p-2 text-light" href="#">Features</a>
+</li>
+     <li class="nav-item">
+    <a class="p-2 text-light" href="#">Enterprise</a>
+</li> #}
+     <li class="nav-item">
+    <a class="p-2 text-light" href="#"><i class="fa-solid fa-message fa-beat-fade"></i></a>
+</li>
+     <li class="nav-item">
+    <a class="p-2 text-light" href="#"><i class="fa-solid fa-cart-shopping fa-beat-fade"></i></a>
+    </li>
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-user fa-beat-fade"></i></a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Créer mon compte</a>
+            <a class="dropdown-item" href="#">Me connecter</a>
+            
+        </div>
+    </li>
+    </ul>
+  </nav>
+ 
+</div>
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <h1 class="display-4">Aux couleurs du pays</h1>
+  <img src="{{ asset('media/logo/logo_transparent.png')}}" height="300px">
+  <p class="lead">Découvrez mon univers. Mes décors et mes créations sont uniques. Je m'inspire de vos désirs pour en faire une réalité.</p>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+    <h3 class="nav-link disabled text-light">Filtre</h3>
+        <ul class="nav flex-column">
+            
+            <li class="nav-item">
+               <a href=" {{ path('home') }}"> Toutes les catégories</a>
+            </li>
+            {% for category in categorys %}
+            <li class="nav-item active">
+               <a href=" {{ path('sousfilter',{id: category.getId() }) }}"> {{ category.getSouscategoryName() }}</a>
+            </li>
+            {% endfor %}
+            
+        </ul>
+    </div>
+    <div class="col-12 col-sm-12 col-md-9 col-lg-9">
+        <div class="card-deck mb-3 text-center ">
+                {% for product in products %}
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                    <div class="card mb-4 shadow-sm" style="background-color:{{ product.getCategoryId().getColour()}}">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">{{ product.name}}</h4>
+                            <img src="{{ asset('media/' ~ product.img) }}" width="150px" style="padding:10px; background-color:black" >
+                        </div> 
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">{{ product.price}} €<small class="text-muted"></small></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>{{ product.description}}</li>
+                                    {% if product.promotion == 1 %}
+                                <p style="background-color:yellow">Solde : {{ product.discount}} %</p>
+                                
+                                {% endif %}
+                                
+                            </ul>
+                                {% if product.stock == 0 %}
+                            <p>Plus de stock</p>
+                            <button type="button" class="btn btn-lg btn-block btn-primary">Me tenir informé</button>
+                            {% else %}
+                            <button type="button" class="btn btn-lg btn-block btn-primary">Acheter</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row">
+      <div class="col-12 col-md">
+        <img class="mb-2" src="{{ asset('media/logo/logo.png')}}" alt="" width="40" height="40">
+        <small class="d-block mb-3 text-muted">&copy; 2017-2020</small>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Features</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Cool stuff</a></li>
+          <li><a class="text-muted" href="#">Random feature</a></li>
+          <li><a class="text-muted" href="#">Team feature</a></li>
+          <li><a class="text-muted" href="#">Stuff for developers</a></li>
+          <li><a class="text-muted" href="#">Another one</a></li>
+          <li><a class="text-muted" href="#">Last time</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Resources</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Resource</a></li>
+          <li><a class="text-muted" href="#">Resource name</a></li>
+          <li><a class="text-muted" href="#">Another resource</a></li>
+          <li><a class="text-muted" href="#">Final resource</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>About</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Team</a></li>
+          <li><a class="text-muted" href="#">Locations</a></li>
+          <li><a class="text-muted" href="#">Privacy</a></li>
+          <li><a class="text-muted" href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="https://kit.fontawesome.com/84e710da70.js" crossorigin="anonymous"></script>
+
+{% endblock %}

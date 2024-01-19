@@ -1,3 +1,16 @@
 body {
-    background-color: skyblue;
+    background-color:#196b69;
 }
+
+#tete{
+    background-color: #196b69;
+}
+
+  
+  .card-deck .card {
+    min-width: 220px;
+  }
+
+  #logo {
+width: 200px;
+  }
