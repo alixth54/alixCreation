@@ -44,6 +44,9 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?SousCategory $souscate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'product')]
+    private ?Orders $orders = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -165,6 +168,18 @@ class Product
     public function setSouscate(?SousCategory $souscate): static
     {
         $this->souscate = $souscate;
+
+        return $this;
+    }
+
+    public function getOrders(): ?Orders
+    {
+        return $this->orders;
+    }
+
+    public function setOrders(?Orders $orders): static
+    {
+        $this->orders = $orders;
 
         return $this;
     }

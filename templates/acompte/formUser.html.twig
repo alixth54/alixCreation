@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création de compte{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <h1>Créer mon Compte</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+
+    {{ form_label(registrationForm.nom) }}
+        {{ form_widget(registrationForm.nom) }}
+
+{{ form_label(registrationForm.prenom) }}
+        {{ form_widget(registrationForm.prenom) }}
+
+        {{ form_label(registrationForm.email) }}
+        {{ form_widget(registrationForm.email) }}
+        
+        {# {{ form_row(registrationForm.password.first, {
+            label: 'Mot de passe'
+        }) }}
+        {{ form_row(registrationForm.password.second, {
+            label: 'Verification du mot de passe'
+        }) }} #}
+
+
+
+        {# {{ form_row(registrationForm.agreeTerms) }} #}
+
+        {# <label>
+        <input type="checkbox" name="_remember_me" checked>
+        Se souvenir de moi
+    </label> #}
+
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}

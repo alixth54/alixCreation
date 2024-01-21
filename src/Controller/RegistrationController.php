@@ -53,12 +53,13 @@ class RegistrationController extends AbstractController
                 )
             );
 
-dd($user);
-            $entityManager->persist($user);
-            $entityManager->flush();
 
+            $entityManager->persist($user);
+            // $entityManager->flush();
+            
             foreach ($user->getAdresses() as $adress) {
                 $adress->setUserId($user);
+                 
                 $entityManager->persist($adress);
             }
         
@@ -66,7 +67,7 @@ dd($user);
 
             $transport = new EsmtpTransport('smtp.google.com');
                         $transport->setUsername('eseht.xila@gmail.com');
-                        $transport->setPassword('aypw%20tqkp%20ykza%20lwsv');
+                        $transport->setPassword('aypwtqkpykzalwsv');
                         $mailer = new Mailer($transport);
 
             $signatureComponents = $verifyEmailHelper->generateSignature(

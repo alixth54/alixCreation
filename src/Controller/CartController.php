@@ -5,21 +5,26 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Product;
+use App\Entity\Orders;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Form\OrderType;
 
 #[Route('/cart', name: 'cart_')]
 class CartController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(SessionInterface $session, ProductRepository $productRepository)
+    public function index(SessionInterface $session, Request $request, EntityManagerInterface $entity, ProductRepository $productRepository)
     {
         $panier = $session->get('panier', []);
       
         //on creer des variables pour récuperer les informations du panier
         $data = [];
         $total = 0 ;
+        $totalReduction = 0;
+        $discounttotal = 0;
 
         //je fais une boucle pour récuperer info panier et les inserer dans variable (si je fais dd($session) je vois panier = id=>quantite)
         foreach($panier as $id => $quantity){
@@ -30,10 +35,32 @@ class CartController extends AbstractController
                 'product'=> $product,
                 'quantity' => $quantity
             ];
-            $total += $product->getPrice() * $quantity;      
-          }
+            $total += $product->getPrice() * $quantity;
+            $discounttotal += (($product->getPrice()*$product->getDiscount())/100)* $quantity;
+            $totalReduction += ($product->getPrice() - (($product->getPrice()*$product->getDiscount())/100)) * $quantity;
+            
+            $order = new Orders();
+            $form = $this->createForm(OrderType::class, $order);
+            $form->handleRequest($request);
+    
+            if($form->isSubmitted() && $form->isValid()){
+                $order->setUser($this->getUser());
+                // $order->setAdress($this->getUser()->getAdresses());
+                $form->get('quantity')->$quantity;
 
-          return $this->render('cart/index.html.twig', compact('data', 'total'));
+                $entity->persist($order);
+                $entity->flush();
+                return $this->redirectToRoute('accompte_index');
+            }
+    
+
+          }
+          
+          return $this->render('cart/index.html.twig', 
+          compact('data', 'total','totalReduction','discounttotal'), 
+            // 'form'=>$form->createView(),
+            
+        );
     }
 
     #[Route('/add/{id}', name: 'add')]
@@ -68,12 +95,37 @@ class CartController extends AbstractController
         // je recupere le panier
         $panier = $session->get('panier', []);
 
-        //si panier n'existe pas je le creer sinon je l'incremente
-        if($panier[$id]= 0){
-            $panier[$id]->$session->set('panier', []);
-        }else{
-            $panier[$id] --;
+        //si panier est vide je retire le rpoduit sinon je décremente
+        if(!empty($panier[$id])){
+            if($panier[$id] > 1){
+                $panier[$id] --;
+            }else{
+                unset($panier[$id]);
+                
+            }
         }
+        
+        $session->set('panier', $panier);
+        
+        
+        return $this->redirectToRoute('cart_index');
+        
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(product $product, SessionInterface $session)
+    {
+        //je récupère id produit
+        $id = $product->getId();
+
+        // je recupere le panier
+        $panier = $session->get('panier', []);
+
+        //si panier n'eest pas vide je l'efface.
+        if(!empty($panier[$id])){
+            unset($panier[$id]); 
+            }
+        
         
         $session->set('panier', $panier);
         

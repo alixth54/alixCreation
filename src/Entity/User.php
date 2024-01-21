@@ -40,12 +40,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Adress::class, cascade:["persist"], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user_id_id', targetEntity: Adress::class, cascade:["persist"], orphanRemoval: true)]
     private Collection $adresses;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Orders::class, orphanRemoval: true)]
+    private Collection $orders;
 
     public function __construct()
     {
         $this->adresses = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -178,6 +182,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($adress->getUserId() === $this) {
                 $adress->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Orders>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Orders $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Orders $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
             }
         }
 

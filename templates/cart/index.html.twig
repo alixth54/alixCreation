@@ -32,7 +32,7 @@
 
 <body class="bg-light">
     <div class="container">
-  <div class="py-5 text-center">
+  <div class="py-5 text-center float-right">
     <img class="d-block mx-auto mb-4" src="{{ asset('media/logo/logo.png') }}" alt="" width="72" height="72">
     <h2>Checkout form</h2>
     <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
@@ -42,15 +42,19 @@
     <div class="col-md-4 order-md-2 mb-4">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-muted">Votre panier</span>
-        <span class="badge badge-secondary badge-pill">3</span>
+        <span class="badge badge-secondary badge-pill">{{data|length }}</span>
       </h4>
       <ul class="list-group mb-3">
             {% for element in data %}
+            
         <li class="list-group-item d-flex justify-content-between lh-condensed">
           <div>
+          
           <img src="{{ asset('media/' ~ element.product.img) }}" alt="{{ element.product.name }}" style="width:30px">
             <h6 class="my-0">{{ element.product.name }}</h6>
-            
+            {% if element.product.promotion == 1 %}
+          <span class="badge badge-secondary bg-info badge-pill">-{{ element.product.price*element.product.discount /100*element.quantity }}€</span>
+          {% endif %}
           </div>
           <div>
           <span> Prix </span>
@@ -58,13 +62,14 @@
          
           </div>
           <div>
-           <span class="text-muted"> {{ element.product.price }}</span>
-          <span class="text-muted"> {{ element.quantity }}</span>
+           <span class="text-muted ml-2"> {{ element.product.price }}</span>
+          <span class="text-muted ml-2"> {{ element.quantity }}</span>
           </div>
           <div>
-           <span class="text-muted"><a href="#" style="color:red; margin-left:5px; font-size:1em"><i class="fa-solid fa-trash"></i></a></span>
+           <span class="text-muted"><a href="{{ path('cart_delete', {id: element.product.id}) }}" style="color:red; margin-left:5px; font-size:1em"><i class="fa-solid fa-trash"></i></a></span>
           <span class="text-muted"><a href="{{ path('cart_add', {id: element.product.id}) }}" style="color:green; font-size:0.6em"><i class="fa-solid fa-plus"></i></a><a href="{{ path('cart_minus', {id: element.product.id}) }}" style="color:orange; font-size:0.6em; margin-left:5px"><i class="fa-solid fa-minus"></i></a></span>
           </div>
+          
         </li>
             {% endfor %}
         {# <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -91,8 +96,17 @@
 
         {# {% for total in total %} #}
         <li class="list-group-item d-flex justify-content-between">
+          <small><span>Sous-Total (€)</span></small>
+          <small>{{ total }} €</small>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <small><span>Reduction (€)</span></small>
+          <small>{{ discounttotal }} €</small>
+        </li>
+        
+        <li class="list-group-item d-flex justify-content-between">
           <span>Total (€)</span>
-          <strong>{{ total }} €</strong>
+          <strong>{{ totalReduction }} €</strong>
         </li>
       </ul>
 
@@ -199,10 +213,13 @@
         </div>
         <hr class="mb-4"> #}
 {% if app.user == null %}
-
+<div class="col-md-8 order-md-1">
+     
+      <form class="needs-validation" novalidate>
+        <div class="row">
 <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-muted">Finaliser votre commande</span>
-        <span class="badge badge-secondary badge-pill">3</span>
+        
       </h4>
       
       <ul class="list-group mb-3">
@@ -229,19 +246,35 @@
 
         <div class="d-block my-3">
           <div class="custom-control custom-radio">
-            <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+            <input id="credit" name="payment_type" type="radio" class="custom-control-input" checked required>
             <label class="custom-control-label" for="credit">Credit card</label>
           </div>
           <div class="custom-control custom-radio">
-            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+            <input id="debit" name="payment_type" type="radio" class="custom-control-input" required>
             <label class="custom-control-label" for="debit">Debit card</label>
           </div>
           <div class="custom-control custom-radio">
-            <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+            <input id="paypal" name="payment_type" type="radio" class="custom-control-input" required>
             <label class="custom-control-label" for="paypal">PayPal</label>
           </div>
         </div>
-        <div class="row">
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="inputGroupSelect01">Adresses</label>
+  </div>
+  <select class="custom-select" id="inputGroupSelect01">
+    <option selected>Choose...</option>
+    {% dump(app.user.getAdresses()) %}
+    {# {% for adress in app.user.getAdresses() %}
+    <option value="{{ adress }}">{{ adress }}</option>
+    {% endfor %} #}
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+  </select>
+</div>
+
+        {# <div class="row">
           <div class="col-md-6 mb-3">
             <label for="cc-name">Name on card</label>
             <input type="text" class="form-control" id="cc-name" placeholder="" required>
@@ -273,9 +306,9 @@
               Security code required
             </div>
           </div>
-        </div>
+        </div> #}
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Valider la commande</button>
       </form>
     </div>
   </div>

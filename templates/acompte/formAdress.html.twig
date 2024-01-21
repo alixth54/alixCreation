@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'adresse{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <h1>Ajouter une adresse</h1>
+
+    {{ form_errors(form) }}
+
+    {{ form_start(form) }}
+
+    {# {{ form_label(form.address_info) }}
+        {{ form_widget(form.address_info) }}
+
+{{ form_label(form.form_info) }}
+        {{ form_widget(form.form_info) }} #}
+
+        {{ form_label(form.zipcode) }}
+        {{ form_widget(form.zipcode) }}
+        
+        {{ form_label(form.city) }}
+        {{ form_widget(form.city) }}
+
+
+
+        {# {{ form_row(registrationForm.agreeTerms) }} #}
+
+        {# <label>
+        <input type="checkbox" name="_remember_me" checked>
+        Se souvenir de moi
+    </label> #}
+
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+    {{ form_end(form) }}
+{% endblock %}

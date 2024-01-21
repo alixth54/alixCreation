@@ -26,11 +26,14 @@ class Adress
     private ?int $zipcode = null;
 
     #[ORM\ManyToOne(inversedBy: 'adresses')]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id',nullable: false)]
-    private ?User $user_id = null;
+    #[ORM\JoinColumn(name: 'user_id_id', referencedColumnName: 'id',nullable: false)]
+    private ?User $user_id_id = null;
 
     #[ORM\Column(length: 50)]
     private ?string $type = null;
+
+    #[ORM\OneToOne(mappedBy: 'adress', cascade: ['persist', 'remove'])]
+    private ?Orders $orders = null;
 
     public function getId(): ?int
     {
@@ -87,12 +90,12 @@ class Adress
 
     public function getUserId(): ?User
     {
-        return $this->user_id;
+        return $this->user_id_id;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUserId(?User $user_id_id): static
     {
-        $this->user_id = $user_id;
+        $this->user_id_id = $user_id_id;
 
         return $this;
     }
@@ -105,6 +108,23 @@ class Adress
     public function setType(string $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getOrders(): ?Orders
+    {
+        return $this->orders;
+    }
+
+    public function setOrders(Orders $orders): static
+    {
+        // set the owning side of the relation if necessary
+        if ($orders->getAdress() !== $this) {
+            $orders->setAdress($this);
+        }
+
+        $this->orders = $orders;
 
         return $this;
     }
