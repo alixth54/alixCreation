@@ -15,15 +15,15 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Date')
-            ->add('payment_type')
-            ->add('statut')
-            ->add('quantity')
-            ->add('total')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
-            ])
+//             ->add('Date')
+//             ->add('payment_type')
+//             ->add('statut')
+//             ->add('quantity')
+//             ->add('total')
+//             ->add('user', EntityType::class, [
+//                 'class' => User::class,
+// 'choice_label' => 'id',
+//             ])
             ->add('adress', EntityType::class, [
                 'class' => Adress::class,
 'choice_label' => 'id',

@@ -3,11 +3,18 @@
 {% block title %}Fenua'a{% endblock %}
 
 {% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="{{ asset('style/pricing.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('style/album.css') }}">
         {% endblock %}
 
+{% block javascripts %}
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/album/">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('style/album.css') }}" rel="stylesheet">
+  
+{% endblock %}
+
 {% block body %}
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm" id="tete">
+    {# <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm" id="tete">
   <h5 class="my-0 mr-md-auto font-weight-normal"><img style="width: 150px" src="{{ asset('media/logo/logo.png')}}"></h5>
   <nav class="my-2 my-md-0 mr-md-3">
   <ul class="nav nav-tabs">
@@ -17,7 +24,7 @@
      <li class="nav-item">
     <a class="p-2 text-light" href="#">Enterprise</a>
 </li> #}
-     <li class="nav-item">
+     {# <li class="nav-item">
     <a class="p-2 text-light" href="#"><i class="fa-solid fa-message fa-beat-fade"></i></a>
 </li>
      <li class="nav-item">
@@ -138,6 +145,142 @@
   </footer>
 </div>
 
+<script src="https://kit.fontawesome.com/84e710da70.js" crossorigin="anonymous"></script> #}
+ 
+
+ <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+<body>
+    <header>
+  <div class="collapse bg-dark" id="navbarHeader">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 py-2">
+          <h4 class="text-white">A propos</h4>
+          <p class="text-muted">Bonjour à toi ! Je m'appelle Alix et je suis encore à la recherche de mon univers. Autant te dire que je suis un poulpe. Un bras, une compétence. J'adore expérimenter et créer.</p>
+        </div>
+        <div class="col-sm-3 col-md-1  py-4">
+          <h4 class="text-white">Contact</h4>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white">Follow on Twitter</a></li>
+            <li><a href="#" class="text-white">Like on Facebook</a></li>
+            <li><a href="#" class="text-white">Email me</a></li>
+             <li class="nav-item">
+    
+    
+          </ul>
+        </div>
+<div class="col-sm-3 offset-md-1 py-4">
+        <a class="p-2 text-light" href="{{ path('cart_index') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier</a>
+    </li>
+    <li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-user fa-beat-fade"></i></a>
+        <div class="dropdown-menu">
+        {% if app.user == null %}
+            <a class="dropdown-item" href="{{ path('app_register') }}">Créer mon compte</a>
+            <a class="dropdown-item" href="{{ path('app_login')}}">Me connecter</a>
+            {% else %}
+            <a class="dropdown-item" href="{{ path('accompte_index')}}">Mon compte</a>
+            <a class="dropdown-item" href="{{ path('app_logout')}}">Me déconnecter</a>
+            {% endif %}
+            </div> 
+        </div>
+    </li>
+      </div>
+    </div>
+  </div>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-between">
+      <a href="#" class="navbar-brand d-flex align-items-center">
+         <svg xmlns="#" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="mr-2" viewBox="0 0 24 24" focusable="false"><img src="{{ asset('media/logo/logo.png')}}" width="40" height="40"></svg>
+        <strong>  Fenua'u</strong>
+      </a>
+        
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main role="main">
+
+  <section class="jumbotron text-center text-light" >
+    <div class="container" style="backdrop-filter: blur(15px);">
+      <h1>Mes réalisations</h1>
+      <p class="lead" style="color: black; font-size:1.1em"> J'adore la peinture acrylique et les possibilités que cela offre. Les décors sur la vaisselle sont réalisés à la main. Je créée moi-même mes pochoirs et pour le reste, un soupçon de patience et d'imagination.</p>
+      <p>
+        
+        
+            <a class="btn btn-secondary my-2" href="{{ path('app_register') }}">Mes outils</a>
+            <a class="btn btn-secondary my-2" href="{{ path('app_login')}}">Mes passions</a>
+            
+      </p>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-transparent">
+    <div class="container">
+
+      <div class="row">
+      {% for product in products %}
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img class="overflow-auto" src="{{ asset('media/' ~ product.img) }}" width="100%" height="250" ></svg>
+            
+            <div class="card-body">
+              <p class="card-text">{{ product.description}}</p>
+              <hr>
+              <h1 class="card-title pricing-card-title">{{ product.price}} €<small class="text-muted"></small></h1>
+              
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                <a class="btn btn-sm btn-outline-secondary" href="{{ path('cart_add', {id: product.id}) }}">Acheter</a>
+                  {# <button type="button" class="btn btn-sm btn-outline-secondary">View</button> #}
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Details...</button>
+                </div>
+                {% if product.promotion == 1 %}
+                <small class="text-muted" style="background-color:yellow">Solde : {{ product.discount}} %</small>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}  
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+    <p>New to Bootstrap? <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
+  </div>
+</footer>
+{% endblock %}
+{%  block javascript %}
 <script src="https://kit.fontawesome.com/84e710da70.js" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
 {% endblock %}

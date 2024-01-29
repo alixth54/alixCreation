@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "228c92fed8525a4bd9a1753bf4e18eaf",
+    "content-hash": "b4414c61c7df0f19db390772dcc9a82f",
     "packages": [
         {
             "name": "composer/semver",
@@ -1478,6 +1478,74 @@
             "time": "2023-10-06T06:47:41+00:00"
         },
         {
+            "name": "miracode/stripe-bundle",
+            "version": "v1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mirovskyi/stripe-bundle.git",
+                "reference": "6031571633d3f3deece4d3199c98f2c67a5b980f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mirovskyi/stripe-bundle/zipball/6031571633d3f3deece4d3199c98f2c67a5b980f",
+                "reference": "6031571633d3f3deece4d3199c98f2c67a5b980f",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": ">=2.2",
+                "php": ">=5.4.0",
+                "stripe/stripe-php": ">=3.0",
+                "symfony/config": ">=2.3",
+                "symfony/framework-bundle": ">=2.4"
+            },
+            "require-dev": {
+                "doctrine/orm": ">=2.2",
+                "phpunit/phpunit": "~4.8|~5.0",
+                "symfony/yaml": "^2.8 || ^3.0 || ^4.0"
+            },
+            "suggest": {
+                "doctrine/orm": "If you want to save stripe data in database"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Miracode\\StripeBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksey Mirovskyi",
+                    "email": "mirovskyi@gmail.com"
+                }
+            ],
+            "description": "Symfony bundle to integrate Stripe PHP SDK. Ability to save Stripe objects in database using Doctrine.",
+            "keywords": [
+                "bundle",
+                "payment",
+                "php",
+                "stripe",
+                "symfony",
+                "webpayment"
+            ],
+            "support": {
+                "issues": "https://github.com/mirovskyi/stripe-bundle/issues",
+                "source": "https://github.com/mirovskyi/stripe-bundle/tree/1.0"
+            },
+            "time": "2018-02-19T16:55:56+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "3.5.0",
             "source": {
@@ -2098,6 +2166,65 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.0"
             },
             "time": "2021-07-14T16:46:02+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v13.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "3d9250964c9d0bc9de8c706b16a90a82d9c8ed9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/3d9250964c9d0bc9de8c706b16a90a82d9c8ed9d",
+                "reference": "3d9250964c9d0bc9de8c706b16a90a82d9c8ed9d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.5.0",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v13.9.0"
+            },
+            "time": "2024-01-12T18:12:31+00:00"
         },
         {
             "name": "symfony/asset",

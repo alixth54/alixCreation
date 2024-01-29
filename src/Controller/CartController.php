@@ -5,18 +5,15 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Product;
-use App\Entity\Orders;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\OrderType;
 
 #[Route('/cart', name: 'cart_')]
 class CartController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(SessionInterface $session, Request $request, EntityManagerInterface $entity, ProductRepository $productRepository)
+    public function index(SessionInterface $session, EntityManagerInterface $entity, ProductRepository $productRepository)
     {
         $panier = $session->get('panier', []);
       
@@ -38,27 +35,11 @@ class CartController extends AbstractController
             $total += $product->getPrice() * $quantity;
             $discounttotal += (($product->getPrice()*$product->getDiscount())/100)* $quantity;
             $totalReduction += ($product->getPrice() - (($product->getPrice()*$product->getDiscount())/100)) * $quantity;
-            
-            $order = new Orders();
-            $form = $this->createForm(OrderType::class, $order);
-            $form->handleRequest($request);
-    
-            if($form->isSubmitted() && $form->isValid()){
-                $order->setUser($this->getUser());
-                // $order->setAdress($this->getUser()->getAdresses());
-                $form->get('quantity')->$quantity;
-
-                $entity->persist($order);
-                $entity->flush();
-                return $this->redirectToRoute('accompte_index');
-            }
-    
-
           }
           
           return $this->render('cart/index.html.twig', 
           compact('data', 'total','totalReduction','discounttotal'), 
-            // 'form'=>$form->createView(),
+          
             
         );
     }

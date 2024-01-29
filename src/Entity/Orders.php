@@ -27,7 +27,7 @@ class Orders
     private Collection $product;
 
     #[ORM\OneToOne(inversedBy: 'orders', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Adress $adress = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -42,9 +42,14 @@ class Orders
     #[ORM\Column]
     private ?float $total = null;
 
+    #[ORM\OneToMany(mappedBy: 'orderId', cascade:['persist'], targetEntity: OrderDetail::class)]
+    private Collection $orderDetails;
+
     public function __construct()
     {
         $this->product = new ArrayCollection();
+        $this->Date = new \DateTime();
+        $this->orderDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +167,36 @@ class Orders
     public function setTotal(float $total): static
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderDetail>
+     */
+    public function getOrderDetails(): Collection
+    {
+        return $this->orderDetails;
+    }
+
+    public function addOrderDetail(OrderDetail $orderDetail): static
+    {
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails->add($orderDetail);
+            $orderDetail->setOrderId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderDetail(OrderDetail $orderDetail): static
+    {
+        if ($this->orderDetails->removeElement($orderDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($orderDetail->getOrderId() === $this) {
+                $orderDetail->setOrderId(null);
+            }
+        }
 
         return $this;
     }
