@@ -38,9 +38,6 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category_id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'productcopy')]
-    private ?Category $souscategory_id = null;
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?SousCategory $souscate = null;
 
@@ -144,18 +141,6 @@ class Product
     public function setCategoryId(?Category $category_id): static
     {
         $this->category_id = $category_id;
-
-        return $this;
-    }
-
-    public function getSouscategoryId(): ?Category
-    {
-        return $this->souscategory_id;
-    }
-
-    public function setSouscategoryId(?Category $souscategory_id): static
-    {
-        $this->souscategory_id = $souscategory_id;
 
         return $this;
     }

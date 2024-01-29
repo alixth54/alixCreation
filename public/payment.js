@@ -3,54 +3,38 @@
 
 // Stripe API Key
 //à remplacer par la public key live quand on passe en production
-// var stripe = Stripe('pk_test_51ObOMoK60wgWalzXIEePXua9V35Hkokn6E3Yj4nebA27CICQPkkU2IbprxFhrH8plgq021gdgGjxfiLfXNZio8ZT00T3vOQkhW');
-// var elements = stripe.elements();
-// // Custom Styling
-// var style = {
-//     base: {
-//         color: '#32325d',
-//         lineHeight: '24px',
-//         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-//         fontSmoothing: 'antialiased',
-//         fontSize: '16px',
-//         '::placeholder': {
-//             color: '#aab7c4'
-//         }
-//     },
-//     invalid: {
-//         color: '#fa755a',
-//         iconColor: '#fa755a'
-//     }
-// };
-// // Create an instance of the card Element
-// var card = elements.create('card', {hidePostalCode: true,style: style});
-// // Add an instance of the card Element into the `card-element` <div>
-// card.mount('#card-element');
-// // Handle real-time validation errors from the card Element.
-// card.addEventListener('change', function(event) {
-//     var displayError = document.getElementById('card-errors');
-// if (event.error) {
-//         displayError.textContent = event.error.message;
-//     } else {
-//         displayError.textContent = '';
-//     }
-// });
-
-
-const stripe = Stripe('pk_test_51ObOMoK60wgWalzXIEePXua9V35Hkokn6E3Yj4nebA27CICQPkkU2IbprxFhrH8plgq021gdgGjxfiLfXNZio8ZT00T3vOQkhW');
-
-const appearance = { /* appearance */ };
-const options = {
-  layout: {
-    type: 'tabs',
-    defaultCollapsed: false,
-  }
+var stripe = Stripe('pk_test_51ObOMoK60wgWalzXIEePXua9V35Hkokn6E3Yj4nebA27CICQPkkU2IbprxFhrH8plgq021gdgGjxfiLfXNZio8ZT00T3vOQkhW');
+var elements = stripe.elements();
+// Custom Styling
+var style = {
+    base: {
+        color: '#32325d',
+        lineHeight: '24px',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+            color: '#aab7c4'
+        }
+    },
+    invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+    }
 };
-const elements = stripe.elements({ clientSecret, appearance });
-const paymentElement = elements.create('payment', options);
-paymentElement.mount('#payment-element');
-
-
+// Create an instance of the card Element
+var card = elements.create('card', {hidePostalCode: true,style: style});
+// Add an instance of the card Element into the `card-element` <div>
+card.mount('#card-element');
+// Handle real-time validation errors from the card Element.
+card.addEventListener('change', function(event) {
+    var displayError = document.getElementById('card-errors');
+if (event.error) {
+        displayError.textContent = event.error.message;
+    } else {
+        displayError.textContent = '';
+    }
+});
 // Handle form submission
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {

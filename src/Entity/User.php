@@ -37,14 +37,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
-
     #[ORM\OneToMany(mappedBy: 'user_id_id', targetEntity: Adress::class, cascade:["persist"], orphanRemoval: true)]
     private Collection $adresses;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Orders::class, orphanRemoval: true)]
     private Collection $orders;
+
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $is_verified = null;
 
     public function __construct()
     {
@@ -146,18 +146,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): static
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Adress>
      */
@@ -216,5 +204,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->is_verified;
     }
 }

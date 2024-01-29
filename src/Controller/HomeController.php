@@ -11,7 +11,7 @@ use App\Entity\Product;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'home')]
+    #[Route('', name: 'home')]
     public function index(EntityManagerInterface $entityManager): Response
     {  
         $categorys = $entityManager->getRepository(Category::class)->findAll();

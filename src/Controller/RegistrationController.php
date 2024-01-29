@@ -38,8 +38,6 @@ class RegistrationController extends AbstractController
     $user->getAdresses()->add($adress);
 
         $form = $this->createForm(RegistrationFormType::class, $user);
-       
-    
         
         $form->handleRequest($request);
 
@@ -53,7 +51,7 @@ class RegistrationController extends AbstractController
                 )
             );
 
-
+            $user->isIsVerified(0);
             $entityManager->persist($user);
             // $entityManager->flush();
             
