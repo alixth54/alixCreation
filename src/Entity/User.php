@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $orders;
 
     #[ORM\Column(type: 'boolean')]
-    private ?bool $is_verified = null;
+    private ?bool $is_verified = true;
 
     public function __construct()
     {

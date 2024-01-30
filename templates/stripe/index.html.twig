@@ -17,10 +17,21 @@
                                 {{ message }}
                             </div>
                         {% endfor %}
+                        {% for message in app.flashes('warning') %}
+                            <div 
+                                style="color: green;
+                                    border: 2px green solid;
+                                    text-align: center;
+                                    padding: 5px;margin-bottom: 10px;">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        
   
-                        <form id='checkout-form' method='post' action="{{ path('app_stripe_charge') }}">             
+                        <form id='checkout-form' method='post' action="{{ path('app_stripe_charge') }}">        
+                          
                             <input type='hidden' name='stripeToken' id='stripe-token-id'>                              
-                            <label for="card-element" class="mb-5">Checkout Forms</label>
+                            <label for="card-element" class="mb-5">Paiement CB</label>
                             <br>
                             <div id="card-element" class="form-control" ></div>
                             <button 
@@ -28,7 +39,7 @@
                                 class="btn btn-success mt-3"
                                 type="button"
                                 style="margin-top: 20px; width: 100%;padding: 7px;"
-                                onclick="createToken()">PAY $5
+                                onclick="createToken()">PAYER {{ totalReduction }}
                             </button>
                         <form>
                     </div>
@@ -43,6 +54,7 @@
         var elements = stripe.elements();
         var cardElement = elements.create('card');
         cardElement.mount('#card-element');
+       
      
         function createToken() {
             document.getElementById("pay-btn").disabled = true;
@@ -58,6 +70,7 @@
                 if(typeof result.token != 'undefined') {
                     document.getElementById("stripe-token-id").value = result.token.id;
                     document.getElementById('checkout-form').submit();
+                    
                 }
             });
         }

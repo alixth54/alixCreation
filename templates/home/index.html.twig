@@ -205,6 +205,10 @@
   </div>
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container d-flex justify-content-between">
+     {% dump(app.user.roles)
+       %}
+    <a href="#" class="navbar-brand d-flex align-items-center">Gestion du site</a>
+    
       <a href="#" class="navbar-brand d-flex align-items-center">
          <svg xmlns="#" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="mr-2" viewBox="0 0 24 24" focusable="false"><img src="{{ asset('media/logo/logo.png')}}" width="40" height="40"></svg>
         <strong>  Fenua'u</strong>
